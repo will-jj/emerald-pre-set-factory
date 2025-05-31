@@ -619,7 +619,7 @@ public static readonly Pokemon Mudkip3Thrillis = new()
                EVs: 252 SpA / 252 Spe  
                Modest Nature  
                IVs: 0 Atk  
-               - Surf  
+               - Icy Wind  
                - Earth Power  
                - Mirror Coat  
                - Counter  
@@ -629,15 +629,15 @@ public static readonly Pokemon Mudkip3Thrillis = new()
 public static readonly Pokemon Mudkip4Thrillis = new()
 {
     Showdown = """
-               Dark (Mudkip) @ Jaboca Berry  
+               Dark (Mudkip) @ Focus Sash  
                Ability: Torrent  
                Level: 30  
                EVs: 252 Atk / 124 Def / 132 Spe  
                Adamant Nature  
                - Waterfall  
-               - Low Kick  
+               - Substitute  
                - Superpower  
-               - Earth Power  
+               - Earth Power
                """
 };
 
@@ -789,11 +789,11 @@ public static readonly Pokemon Mudkip14Thrillis = new()
                Level: 30  
                EVs: 252 SpA / 252 Spe  
                Rash Nature  
-               IVs: 30 HP / 2 Atk / 2 Def / 2 SpD / 30 Spe  
+               IVs: 0 Atk / 0 Def / 0 SpD  
                - Surf  
-               - Hidden Power [Ground]  
+               - Earth Power  
                - Counter  
-               - Mirror Coat  
+               - Mirror Coat
                """
 };
 
@@ -850,10 +850,7 @@ public static readonly Team ThrillisKip = new()
     OT = "Thrillis",
     Members =
     [
-        Mudkip1Thrillis, Mudkip2Thrillis, Mudkip3Thrillis, Mudkip4Thrillis, Mudkip5Thrillis,
-        Mudkip6Thrillis, Mudkip7Thrillis, Mudkip8Thrillis, Mudkip9Thrillis, Mudkip10Thrillis,
-        Mudkip11Thrillis, Mudkip12Thrillis, Mudkip13Thrillis, Mudkip14Thrillis, Mudkip15Thrillis,
-        Mudkip16Thrillis, Mudkip17Thrillis
+        Mudkip3Thrillis
     ]
 };
 public static readonly Team Itol6Team = new()
