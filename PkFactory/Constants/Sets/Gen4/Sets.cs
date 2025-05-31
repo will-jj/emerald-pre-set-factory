@@ -578,7 +578,284 @@ public static readonly Pokemon Garchomy2Magpie = new()
         """
 };
 
+public static readonly Pokemon Mudkip1Thrillis = new()
+{
+Showdown = """
+           Water (Mudkip) @ Choice Specs  
+           Ability: Torrent  
+           Level: 30  
+           EVs: 200 Def / 152 SpA / 156 Spe  
+           Modest Nature  
+           - Hidden Power [Grass]  
+           - Earth Power  
+           - Rock Tomb  
+           - Mirror Coat  
+           """
+};
 
+public static readonly Pokemon Mudkip2Thrillis = new()
+{
+    Showdown = """
+               Poison (Mudkip) (F) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Modest Nature  
+               IVs: 2 Atk / 30 Spe  
+               - Ice Beam  
+               - Earth Power  
+               - Mirror Coat  
+               - Hidden Power [Psychic]  
+               """
+};
+
+
+public static readonly Pokemon Mudkip3Thrillis = new()
+{
+    Showdown = """
+               Electric (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Modest Nature  
+               IVs: 0 Atk  
+               - Surf  
+               - Earth Power  
+               - Mirror Coat  
+               - Counter  
+               """
+};
+
+public static readonly Pokemon Mudkip4Thrillis = new()
+{
+    Showdown = """
+               Dark (Mudkip) @ Jaboca Berry  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 Atk / 124 Def / 132 Spe  
+               Adamant Nature  
+               - Waterfall  
+               - Low Kick  
+               - Superpower  
+               - Earth Power  
+               """
+};
+
+public static readonly Pokemon Mudkip5Thrillis = new()
+{
+    Showdown = """
+               Grass (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Rash Nature  
+               IVs: 3 Atk / 30 Def / 30 SpA / 30 SpD  
+               - Icy Wind  
+               - Hidden Power [Poison]  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip6Thrillis = new()
+{
+    Showdown = """
+               Ice (Mudkip) @ Lum Berry  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 Atk / 252 Spe  
+               Adamant Nature  
+               - Rock Tomb  
+               - Superpower  
+               - Headbutt  
+               - Waterfall  
+               """
+};
+
+public static readonly Pokemon Mudkip7Thrillis = new()
+{
+    Showdown = """
+               Ghost (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Rash Nature  
+               IVs: 3 Atk / 15 SpD  
+               - Surf  
+               - Hidden Power [Dark]  
+               - Swagger  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip8Thrillis = new()
+{
+    Showdown = """
+               Psychic (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Rash Nature  
+               IVs: 2 Atk / 30 Def / 2 SpD  
+               - Surf  
+               - Hidden Power [Bug]  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip9Thrillis = new()
+{
+    Showdown = """
+               Normal (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 Atk / 252 SpA  
+               Naughty Nature  
+               - Superpower  
+               - Ice Beam  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip10Thrillis = new()
+{
+    Showdown = """
+               Bug (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 100 Atk / 28 Def / 156 SpA / 224 Spe  
+               Rash Nature  
+               - Rock Tomb  
+               - Hidden Power [Fire]  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip11Thrillis = new()
+{
+    Showdown = """
+               Fighting (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 16 Def / 252 SpA / 240 Spe  
+               Modest Nature  
+               IVs: 2 Atk / 23 SpD / 30 Spe  
+               - Surf  
+               - Hidden Power [Psychic]  
+               - Mirror Coat  
+               - Counter  
+               """
+};
+
+public static readonly Pokemon Mudkip12Thrillis = new()
+{
+    Showdown = """
+               Flying (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Rash Nature  
+               - Rock Tomb  
+               - Ice Beam  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip13Thrillis = new()
+{
+    Showdown = """
+               Dragon (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Timid Nature  
+               IVs: 0 Atk / 0 Def  
+               - Ice Beam  
+               - Counter  
+               - Mirror Coat  
+               - Icy Wind  
+               """
+};
+
+public static readonly Pokemon Mudkip14Thrillis = new()
+{
+    Showdown = """
+               Steel (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Rash Nature  
+               IVs: 30 HP / 2 Atk / 2 Def / 2 SpD / 30 Spe  
+               - Surf  
+               - Hidden Power [Ground]  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip15Thrillis = new()
+{
+    Showdown = """
+               Rock (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Modest Nature  
+               IVs: 30 HP / 3 Atk / 30 SpA / 3 SpD  
+               - Surf  
+               - Hidden Power [Grass]  
+               - Counter  
+               - Mirror Coat  
+               """
+};
+
+public static readonly Pokemon Mudkip16Thrillis = new()
+{
+    Showdown = """
+               Ground (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 252 SpA / 252 Spe  
+               Timid Nature  
+               IVs: 30 HP / 3 Atk / 30 SpA  
+               - Surf  
+               - Hidden Power [Grass]  
+               - Ice Beam  
+               - Icy Wind  
+               """
+};
+
+public static readonly Pokemon Mudkip17Thrillis = new()
+{
+    Showdown = """
+               Fire (Mudkip) @ Focus Sash  
+               Ability: Torrent  
+               Level: 30  
+               EVs: 4 HP / 252 SpA / 252 Spe  
+               Rash Nature  
+               IVs: 0 Atk / 0 Def / 0 SpD  
+               - Surf  
+               - Hydro Pump  
+               - Mirror Coat  
+               - Counter  
+               """
+};
+
+public static readonly Team ThrillisKip = new()
+{
+    OT = "Thrillis",
+    Members =
+    [
+        Mudkip1Thrillis, Mudkip2Thrillis, Mudkip3Thrillis, Mudkip4Thrillis, Mudkip5Thrillis,
+        Mudkip6Thrillis, Mudkip7Thrillis, Mudkip8Thrillis, Mudkip9Thrillis, Mudkip10Thrillis,
+        Mudkip11Thrillis, Mudkip12Thrillis, Mudkip13Thrillis, Mudkip14Thrillis, Mudkip15Thrillis,
+        Mudkip16Thrillis, Mudkip17Thrillis
+    ]
+};
 public static readonly Team Itol6Team = new()
 {
     OT = "Itol6",
@@ -642,12 +919,6 @@ public static readonly Team TsitsoPachirisuHallTeam = new()
 
 public static readonly List<Team> AllSets =
 [
-    Itol6Team,
-    TREArcardeSingles,
-    SquilliamsArcadeSingles,
-    MagpieArcadeSingles220,
-    MagpieArcadeSingles220Final,
-    MagpieArcadeSingles315,
-    TsitsoPachirisuHallTeam,
+    ThrillisKip
 ];
 }
