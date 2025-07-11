@@ -18,100 +18,33 @@
         -->
         <vm:MainViewModel />
     </Design.DataContext>
-    <Grid HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
         <StackPanel Orientation="Vertical">
-            <StackPanel.Styles>
-                <Style Selector="TextBox.class1">
-                    <Setter Property="BorderBrush" Value="Red" />
-                </Style>
-            </StackPanel.Styles>
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="20"
-                Text="{Binding Greeting}" />
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="12"
-                Text="{Binding Message}" />
-            <ComboBox
-                Margin="5"
-                ItemsSource="{Binding Games}"
-                PlaceholderText="Game"
-                SelectedItem="{Binding SelectedGame}" />
-            <!-- <Button HorizontalAlignment="Center"  Command="{Binding GetPreppedFileCommand}" Content="Load" Margin="5" /> -->
-            <TextBox
-                MinWidth="100"
-                Margin="5"
-                HorizontalAlignment="Left"
-                Text="{Binding Name, Mode=TwoWay}"
-                Watermark="Name" />
-            <ListBox
-                Margin="5"
-                Background="Transparent"
-                Classes="RadioButtonListBox"
-                ItemsSource="{Binding GenderSelects}"
-                SelectedItem="{Binding SelectedGender}" />
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="5" IsChecked="{Binding IncludeTeam, Mode=TwoWay}">Include Teams</CheckBox>
-                <CheckBox Name="EditTeams" Margin="5">Edit Teams</CheckBox>
-            </StackPanel>
-        </StackPanel>
-        <ScrollViewer
-            Grid.Row="1"
-            MaxHeight="500"
-            Margin="5"
-            HorizontalAlignment="Center"
-            IsVisible="{Binding #EditTeams.IsChecked}">
-            <ItemsControl IsVisible="{Binding IncludeTeam}" ItemsSource="{Binding Sets}">
+            <ComboBox SelectedIndex="{Binding SelectedLevel}">
+                <ComboBoxItem>Lv. 50</ComboBoxItem>
+                <ComboBoxItem>OL</ComboBoxItem>
+            </ComboBox>
+            <ItemsControl ItemsSource="{Binding Poketmonsters}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox
-                                Name="ShowDownTextBox"
-                                MinWidth="200"
-                                MinHeight="100"
+                            <AutoCompleteBox Margin="5" MinWidth="100" ItemsSource="{Binding Mons}"
+                                             SelectedItem="{Binding FrontierMon}" Watermark="{Binding PlaceHolder}" FontSize="16" FilterMode="StartsWith"
+                                             HorizontalAlignment="Left" />
+                            <ComboBox
                                 Margin="5"
-                                AcceptsReturn="True"
-                                Classes.class1="{Binding IsNotValid}"
-                                Text="{Binding ShowdownText}" />
-                            <TextBox
-                                Height="{Binding #ShowDownTextBox.Bounds.Height}"
-                                IsVisible="{Binding IsNotValid}"
-                                Text="{Binding Errors}" />
+                                PlaceholderText="Ability"
+                                ItemsSource="{Binding Abilities}"
+                                SelectedItem="{Binding Ability}">
+                            </ComboBox>
+                            <ComboBox
+                                Margin="5"
+                                ItemsSource="{Binding IvRs}"
+                                PlaceholderText="IVs"
+                                SelectedItem="{Binding Ivs}" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>
-        <StackPanel Grid.Row="2" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Left" Command="{Binding ResetSetsCommand}">Reset Sets</Button>
-                <Button
-                    HorizontalAlignment="Left"
-                    Command="{Binding ValidateSetsCommand}"
-                    Content="Validate Sets" />
-            </StackPanel>
-            <StackPanel
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-                <Button HorizontalAlignment="Left" Command="{Binding GetFileCommand}">Optional: Add Existing Save to Modify</Button>
-                <Button
-                    HorizontalAlignment="Left"
-                    Command="{Binding SaveFileCommand}"
-                    Content="Save" />
+            <Button Command="{Binding DoItCommand }">DO IT</Button>
         </StackPanel>
-        </StackPanel>
-
-    </Grid>
-
 </UserControl>

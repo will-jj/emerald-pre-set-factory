@@ -4,17 +4,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PkFactory.Constants.Sets.Gen3;
 using PkFactory.Services;
 using PKHeX.Core;
 using PkFactory.Models;
-using PKHeX.Core.AutoMod;
+
 
 namespace PkFactory.ViewModels;
 
@@ -25,28 +25,17 @@ public partial class MainViewModel : ViewModelBase
     private bool _canSaveFile;
 
     private string? _filename = "emerald-factory.sav";
-
-    [ObservableProperty]
-    private string _greeting = "Create Frontier Ready Save";
-
-    [ObservableProperty]
-    private string _message;
+    
 
     private string _name = string.Empty;
 
     private SaveFile? _saveFile;
 
-    [ObservableProperty]
-    private string _selectedGender;
+
 
     [ObservableProperty]
     private string? _selectedGame;
 
-    public MainViewModel()
-    {
-        SelectedGender = GenderSelects[0];
-        APILegality.SetAllLegalRibbons = false;
-    }
 
     [Required]
     [MinLength(1)]
@@ -58,13 +47,28 @@ public partial class MainViewModel : ViewModelBase
     }
 
 
-    public ObservableCollection<string> Games { get; set; } = ["Emerald", "Heart Gold"];
-    public ObservableCollection<string> GenderSelects { get; set; } = ["Boy", "Girl"];
-    public ObservableCollection<Set> Sets { get; set; } = new()
+
+    [ObservableProperty]
+    private int _selectedAbility;
+    
+    [ObservableProperty]
+    private int _selectedLevel;
+    
+    [ObservableProperty]
+    private int _selectedIv;
+    
+    [ObservableProperty]
+    private string _selectedFrontierMon;
+
+
+    public ObservableCollection<Poketmonster> Poketmonsters { get; set; } = new()
     {
-        new(),
-        new(String.Empty),
-        new Set(String.Empty),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Mon 1"),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Mon 2"),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Mon 3"),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Opp 1"),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Opp 2"),
+        new Poketmonster(Constants.FrontierMons.FrontierMonNames, "Opp 3"),
     };
 
     [ObservableProperty]
@@ -113,49 +117,87 @@ public partial class MainViewModel : ViewModelBase
             using MemoryStream memoryStream = new();
             await datain.CopyToAsync(memoryStream);
             byte[] byteArray = memoryStream.ToArray();
+            int real = 131072;
+            var data = byteArray[..real].ToArray();
+            var hmm = data[0xE70];
+            var hmm2 = data[0xE71];
             _saveFile = SaveUtil.GetVariantSAV(byteArray);
             if (_saveFile != null)
             {
                 CanSaveFile = true;
                 Name = _saveFile.OT;
-                if (_saveFile.Gender == (byte)PKHeX.Core.Gender.Female)
-                {
-                    SelectedGender = "Girl";
-                }
-                else
-                {
-                    SelectedGender = "Boy";
-                }
             }
         }
 
-        if (IncludeTeam)
+
+        if (_saveFile is not SAV3E save) return;
+        int record = 0xE70;
+
+
+        const int flag = 0xEFA;
+        save.Small[flag] = 1;
+        
+    }
+
+    private static void WriteMonToSave(SAV3E save, ref int record, ushort frontierIdx, uint naturality, byte ivs, byte ability)
+    {
+        // Mon Id
+        WriteUInt16LittleEndian(save.Small.AsSpan(record), frontierIdx);
+        record += 2;
+        record += 2;
+        
+        // Personality
+        WriteUInt32LittleEndian(save.Small.AsSpan(record), naturality);
+        record += 4;
+        
+        // Ivs
+        save.Small[record] = ivs;
+        record++;
+        
+        //Ability
+        save.Small[record] = ability;
+        record++;
+        record += 2;
+        
+        
+        const int flag = 0xEFA;
+        save.Small[flag] = 1;
+    }
+    
+    [RelayCommand]
+    public async Task DoIt()
+    {
+        if (SelectedLevel == 0)
         {
-            // TODO: fix this too
-            OnIncludeTeamChanged(IncludeTeam);
-            UpdateSets();
+            await GetPreppedFile("avares://PkFactory/Assets/lv50.sav");
         }
+        else
+        {
+            await GetPreppedFile("avares://PkFactory/Assets/ol.sav");
+
+        }
+
+        if (_saveFile is not SAV3E save) return;
+        int record = 0xE70;
+        int ii = 0;
+        foreach (Poketmonster monster in Poketmonsters)
+        {
+            // find the string because binding is silly
+            int index = Array.IndexOf(Constants.FrontierMons.FrontierMonNames, monster.FrontierMon);
+            if (index == -1) return;
+            int nature = (int)Constants.FrontierMons.FrontierMonNatures[index];
+            monster.Ivs ??= ii <= 2 ? 31 : 3;
+            monster.Ability ??= 0;
+            ii++;
+            WriteMonToSave(save, ref record, (ushort)index, (uint)nature, (byte)monster.Ivs, (byte)monster.Ability);
+        }
+        
+        await SaveFile();
     }
 
     [RelayCommand(CanExecute = nameof(CanSaveFile))]
     public async Task SaveFile()
     {
-        ValidateAllProperties();
-        if (HasErrors) return;
-        _saveFile!.OT = Name;
-
-        // Will require scene change to update
-        // Brendan is option 0
-        if (SelectedGender == GenderSelects[0])
-            _saveFile.Gender = (byte)Gender.Male;
-        else
-            _saveFile.Gender = (byte)Gender.Female;
-
-        if (IncludeTeam)
-        {
-            SetTeam();
-        }
-
 
         TopLevel? topLevel = DialogManager.GetTopLevelForContext(this);
         if (topLevel == null) return;
@@ -169,251 +211,5 @@ public partial class MainViewModel : ViewModelBase
             await using Stream stream = await fileOut.OpenWriteAsync();
             await stream.WriteAsync(_saveFile.Write());
         }
-    }
-
-    public PKM? PokemonFromSet(Set member, ShowdownSet set)
-    {
-        if(_saveFile is null) return null;
-        
-        PKM pkm;
-        switch (_saveFile.Generation)
-        {
-            case 3:
-                pkm = new PK3();
-                break;
-            case 4:
-                //pkm = new PK4();
-                pkm = _saveFile.PartyData[0].Clone();
-                break;
-            default:
-                return null;
-        }
-
-        pkm.ApplySetDetails(set);
-
-        if (string.IsNullOrEmpty(set.Nickname))
-        {
-            pkm.Nickname = SpeciesName.GetSpeciesNameGeneration(pkm.Species,
-                2, //_saveFile.Language,
-                _saveFile.Generation);
-        }
-
-        // Still show as traded but at least give the name
-        pkm.OriginalTrainerName = Name;
-
-
-        // Make them legal
-        PKM pkmLegal =
-            _saveFile.GetLegalFromTemplate(pkm, set, out LegalizationResult result, out ITracebackHandler _);
-        pkmLegal.RestoreIVs(pkm.IVs);
-        
-        // Why do you change swarm...
-        pkmLegal.Ability = pkm.Ability;
-        pkmLegal.ResetPartyStats();
-        pkm = pkmLegal.Clone();
-
-
-        if (member.PID is not null)
-            pkm.PID = (uint)member.PID;
-        
-        return pkm;
-    }
-
-    public List<PKM> ValidateAndGenerateTeams()
-    {
-        List<PKM> monsToAdd = new();
-        if (_saveFile is null) return monsToAdd;
-        
-        foreach (Set member in Sets)
-        {
-            ShowdownSet set = new(member.ShowdownText);
-            if (set.InvalidLines.Count > 0 || set.Species == 0)
-            {
-                member.Errors = string.Join('\n', set.InvalidLines);
-                member.IsNotValid = true;
-                continue;
-            }
-
-            member.IsNotValid = false;
-
-           PKM? pkm = PokemonFromSet(member, set);
-           if(pkm is null) continue;
-
-            LegalityAnalysis la = new(pkm);
-
-            if (!la.Valid)
-            {
-
-                string report = la.Report();
-                member.Errors = report;
-                member.IsNotValid = true;
-                // redo the analysis just for ease...
-                // allow for now
-                //continue;
-            }
-            monsToAdd.Add(pkm);
-        }
-        
-        return monsToAdd;
-        
-    }
-
-    private void UpdateSets()
-    {
-        // TODO: Fix code repetition
-        if (_saveFile is null) return;
-        _ = ValidateAndGenerateTeams();
-    }
-
-
-    private void SetTeam()
-    {
-        if (_saveFile is null) return;
-
-        int partyCount = 0;
-
-        int numSets = Sets.Count;
-
-
-        int emptyBox = -1;
-        List<int> emptyBoxList = new();
-        for (int box = 0; box < _saveFile.BoxCount; box++)
-        {
-            PKM[] boxData = _saveFile.GetBoxData(box);
-
-            if (boxData.All(slot => slot.Species == 0)) // Check if all slots in the box are empty
-            {
-                emptyBoxList.Add(box);
-            }
-        }
-
-        if (numSets > _saveFile.GetBoxData(0).Length*emptyBoxList.Count)
-        {
-            // Fail for now
-            // TODO: fix this, spread across empty boxes, or position
-            // in threes, or something else...
-            return;
-        }
-
-        List<PKM> monsToAdd = ValidateAndGenerateTeams();
-        emptyBox = emptyBoxList.FirstOrDefault();
-        emptyBoxList.RemoveAt(0);
-        foreach (PKM pkm in monsToAdd)
-        {
-            // TODO: If loading saves check where to put them properly
-            _saveFile.SetBoxSlotAtIndex(pkm, emptyBox, partyCount);
-            partyCount++;
-            if (partyCount == _saveFile.GetBoxData(0).Length)
-            {
-                partyCount = 0;
-                if (emptyBoxList.Count > 0)
-                {
-                    emptyBox = emptyBoxList.FirstOrDefault();
-                    emptyBoxList.RemoveAt(0);
-                }
-                else
-                {
-                    // Bad or perfect length...
-                    return;
-                }
-            }
-        }
-    }
-
-    partial void OnSelectedSetChanged(string? oldValue, string newValue)
-    {
-        if (oldValue is null) return;
-
-        // TODO: make this flexible for any set choice
-        if (SelectedSetIndex == 1)
-        {
-            Sets.Clear();
-            foreach (Pokemon mon in Sets3.AdededeTowerSingles50.Members)
-            {
-                Sets.Add(new(mon.Showdown));
-            }
-        }
-        else
-        {
-            Sets.Clear();
-            for (int ii = 0; ii < 3; ii++)
-            {
-                Sets.Add(new());
-            }
-        }
-
-    }
-
-    partial void OnIncludeTeamChanged(bool value)
-    {
-        if (value)
-        {
-            Sets.Clear();
-            if (_saveFile is null) return;
-            if (_saveFile.Generation == 4)
-            {
-                foreach (Team team in Constants.Sets.Gen4.Sets4.AllSets)
-                {
-                    foreach (Pokemon member in team.Members)
-                    {
-                        Sets.Add(new(member.Showdown, member.PID));
-                    }
-                }
-            }
-
-            if (_saveFile.Generation == 3)
-            {
-                // not do anything for now
-            }
-        }
-        else
-        {
-            Sets.Clear();
-        }
-
-        UpdateSets();
-    }
-
-    async partial void OnSelectedGameChanged(string? value)
-    {
-        try
-        {
-            if (value is null) return;
-            Sets.Clear();
-            CanSaveFile = false;
-            switch (value)
-            {
-                case "Emerald":
-                    _filename = "pkfrontier-emerald.sav";
-                    await GetPreppedFile("avares://PkFactory/Assets/pokeemerald.sav");
-                    break;
-                case "Heart Gold":
-                    _filename = "pkfrontier-hg.sav";
-                    await GetPreppedFile("avares://PkFactory/Assets/HeartGold.sav");
-                    break;
-            }
-
-            // Hack hack hack 
-            OnIncludeTeamChanged(IncludeTeam);
-        }
-        catch (Exception e)
-        {
-            throw; // TODO handle exception
-            // Or just fix this method...
-        }
-    }
-
-    [RelayCommand]
-    public void ResetSets()
-    {
-        // TODO: Fix how all this is done
-        OnIncludeTeamChanged(IncludeTeam);
-    }
-
-    [RelayCommand]
-    public void ValidateSets()
-    {
-        if (_saveFile is null) return;
-        _ = ValidateAndGenerateTeams();
     }
 }

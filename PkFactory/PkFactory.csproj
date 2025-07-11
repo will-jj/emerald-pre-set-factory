@@ -22,8 +22,4 @@
         <PackageReference Include="CommunityToolkit.Mvvm"/>
         <PackageReference Include="PKHeX.Core"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\PKHeX.Core.AutoMod\PKHeX.Core.AutoMod.csproj" />
-    </ItemGroup>
 </Project>
