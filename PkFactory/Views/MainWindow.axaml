@@ -3,9 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:PkFactory.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
         x:Class="PkFactory.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="PkFactory">
+        MinHeight="580"
+        MinWidth="480"
+        Title="Emerald Factory Pre-Set Battle">
     <views:MainView />
 </Window>
