@@ -57,5 +57,9 @@
         </ItemsControl>
         <Button Command="{Binding GetFile}" IsVisible="{Binding UseOwnSave}" Margin="10">Upload Save</Button>
         <Button Command="{Binding DoItCommand}" Margin="10">Download</Button>
+        
+        <SelectableTextBlock Margin="10" xml:space="preserve">Note: A modified rom is required to set the opponents team:
+https://github.com/will-jj/emerald-factory-pre-set/releases/tag/v0.0.1
+        </SelectableTextBlock>
     </StackPanel>
 </UserControl>
