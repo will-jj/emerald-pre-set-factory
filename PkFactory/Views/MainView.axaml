@@ -59,6 +59,6 @@
         <Button Command="{Binding DoItCommand}" Margin="10">Download</Button>
         
         <SelectableTextBlock Margin="10 10 10 0">A modified rom is required to set the opponents team:</SelectableTextBlock>
-        <SelectableTextBlock Margin="10 0 10 10">https://github.com/will-jj/emerald-factory-pre-set/releases/download/v0.0.1/emerald-factory-pre-set.ups</SelectableTextBlock>
+        <SelectableTextBlock Margin="10 0 10 10">https://github.com/will-jj/emerald-factory-pre-set/releases/download/v0.0.2/emerald-factory-pre-set.ups</SelectableTextBlock>
     </StackPanel>
 </UserControl>
