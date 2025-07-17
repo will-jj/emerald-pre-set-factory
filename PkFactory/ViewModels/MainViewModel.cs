@@ -23,6 +23,12 @@ public partial class MainViewModel : ViewModelBase
     [NotifyCanExecuteChangedFor(nameof(SaveFileCommand))]
     private bool _canSaveFile;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ChooseByName))]
+    private bool _chooseByIndex;
+
+    public bool ChooseByName => !ChooseByIndex;
+
     private string? _filename = "emerald-factory.sav";
     
 
@@ -37,15 +43,15 @@ public partial class MainViewModel : ViewModelBase
         OwnSave
     }
     
-    public ObservableCollection<PocketMonster> Poketmonsters { get; set; } = new()
-    {
+    public ObservableCollection<PocketMonster> Poketmonsters { get; set; } =
+    [
         new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Mon 1", "IVs [31]"),
         new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Mon 2", "IVs [31]"),
         new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Mon 3", "IVs [31]"),
         new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Opp 1", "IVs [3]"),
         new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Opp 2", "IVs [3]"),
-        new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Opp 3", "IVs [3]"),
-    };
+        new PocketMonster(Constants.FrontierMons.FrontierMonNames, "Opp 3", "IVs [3]")
+    ];
     
 
     [ObservableProperty]
@@ -137,8 +143,17 @@ public partial class MainViewModel : ViewModelBase
         int ii = 0;
         foreach (PocketMonster monster in Poketmonsters)
         {
-            // find the string because binding is silly
-            int index = Array.IndexOf(Constants.FrontierMons.FrontierMonNames, monster.FrontierMon);
+            int index = -1;
+            if (ChooseByIndex)
+            {
+                index = monster.FrontierMonIndex ?? -1;
+            }
+            else
+            {
+                // find the string because binding is silly
+                index = Array.IndexOf(Constants.FrontierMons.FrontierMonNames, monster.FrontierMon);
+            }
+
             if (index == -1) return;
             int nature = (int)Constants.FrontierMons.FrontierMonNatures[index];
             monster.Ivs ??= ii <= 2 ? 31 : 3;

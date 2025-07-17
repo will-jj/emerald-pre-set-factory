@@ -32,17 +32,24 @@
             </ComboBox>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Poketmonsters}">
+        <ItemsControl x:Name="Items" ItemsSource="{Binding Poketmonsters}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <AutoCompleteBox Margin="10" MinWidth="180"
+                                         IsVisible="{Binding #Items.((vm:MainViewModel)DataContext).ChooseByName}"
                                          ItemsSource="{Binding Mons}"
                                          SelectedItem="{Binding FrontierMon}"
                                          Watermark="{Binding PlaceHolder}"
                                          FontSize="16"
                                          FilterMode="StartsWith"
                                          HorizontalAlignment="Left" />
+                        <TextBox Margin="10" MinWidth="180"
+                                 Text="{Binding FrontierMonIndex, Mode=TwoWay}"
+                                 IsVisible="{Binding #Items.((vm:MainViewModel)DataContext).ChooseByIndex}"
+                                 Watermark="{Binding PlaceHolder}"
+                                 FontSize="16"
+                                 HorizontalAlignment="Left" />
                         <ComboBox Margin="10" Width="110"
                                   PlaceholderText="Ability [0]"
                                   ItemsSource="{Binding Abilities}"
@@ -57,7 +64,9 @@
         </ItemsControl>
         <Button Command="{Binding GetFile}" IsVisible="{Binding UseOwnSave}" Margin="10">Upload Save</Button>
         <Button Command="{Binding DoItCommand}" Margin="10">Download</Button>
-        
+
+        <CheckBox Margin="10" IsChecked="{Binding ChooseByIndex}">Choose By Index</CheckBox>
+
         <SelectableTextBlock Margin="10 10 10 0">A modified rom is required to set the opponents team:</SelectableTextBlock>
         <SelectableTextBlock Margin="10 0 10 10">https://github.com/will-jj/emerald-factory-pre-set/releases/download/v0.0.2/emerald-factory-pre-set.ups</SelectableTextBlock>
     </StackPanel>

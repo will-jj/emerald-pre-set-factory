@@ -11,6 +11,9 @@ public partial class PocketMonster : ViewModelBase
     string _frontierMon = string.Empty;
     
     [ObservableProperty]
+    int? _frontierMonIndex;
+    
+    [ObservableProperty]
     string _placeHolder = string.Empty;
 
     [ObservableProperty]
