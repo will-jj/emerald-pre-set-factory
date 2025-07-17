@@ -21,6 +21,9 @@ public partial class PocketMonster : ViewModelBase
 
     [ObservableProperty]
     private int? _ability;
+    
+    [ObservableProperty]
+    private int? _nature;
 
     [ObservableProperty]
     private int? _ivs;

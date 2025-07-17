@@ -51,6 +51,11 @@
                                  FontSize="16"
                                  HorizontalAlignment="Left" />
                         <ComboBox Margin="10" Width="110"
+                                  IsVisible="{Binding #Items.((vm:MainViewModel)DataContext).ChooseByIndex}"
+                                  PlaceholderText="Nature"
+                                  ItemsSource="{Binding #Items.((vm:MainViewModel)DataContext).NatureNames}"
+                                  SelectedIndex="{Binding Nature}" />
+                        <ComboBox Margin="10" Width="110"
                                   PlaceholderText="Ability [0]"
                                   ItemsSource="{Binding Abilities}"
                                   SelectedItem="{Binding Ability}" />

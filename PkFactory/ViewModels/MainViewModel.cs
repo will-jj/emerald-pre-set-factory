@@ -42,6 +42,8 @@ public partial class MainViewModel : ViewModelBase
         Doubles100,
         OwnSave
     }
+
+    public ObservableCollection<string> NatureNames { get; set; } = new(Constants.Natures.NaturesNames);
     
     public ObservableCollection<PocketMonster> Poketmonsters { get; set; } =
     [
@@ -155,7 +157,15 @@ public partial class MainViewModel : ViewModelBase
             }
 
             if (index == -1) return;
-            int nature = (int)Constants.FrontierMons.FrontierMonNatures[index];
+            int nature = 0;
+            if (ChooseByIndex)
+            {
+                nature = monster.Nature ?? 0;
+            }
+            else
+            {
+                nature = (int)Constants.FrontierMons.FrontierMonNatures[index];
+            }
             monster.Ivs ??= ii <= 2 ? 31 : 3;
             monster.Ability ??= 0;
             ii++;
