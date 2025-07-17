@@ -70,7 +70,7 @@
         <Button Command="{Binding GetFile}" IsVisible="{Binding UseOwnSave}" Margin="10">Upload Save</Button>
         <Button Command="{Binding DoItCommand}" Margin="10">Download</Button>
 
-        <CheckBox Margin="10" IsChecked="{Binding ChooseByIndex}">Choose By Index</CheckBox>
+        <CheckBox Margin="10" IsChecked="{Binding ChooseByIndex}">Choose by Index</CheckBox>
 
         <SelectableTextBlock Margin="10 10 10 0">A modified rom is required to set the opponents team:</SelectableTextBlock>
         <SelectableTextBlock Margin="10 0 10 10">https://github.com/will-jj/emerald-factory-pre-set/releases/download/v0.0.2/emerald-factory-pre-set.ups</SelectableTextBlock>
